@@ -1,0 +1,71 @@
+class Transaction:
+    def __init__(self):
+        self.transaction_list = []
+    
+    def add_item(self, item):
+        try:
+            name, quantity, price = item
+            item = [name, quantity, price, quantity * price]
+            self.transaction_list.append(item)
+        except:
+            print("Error: Invalid item format")
+    
+    def update_item_name(self, name, update_name):
+        for item in self.transaction_list:
+            if item[0] == name:
+                item[0] = update_name
+    
+    def update_item_qty(self, name, update_qty):
+        for item in self.transaction_list:
+            if item[0] == name:
+                item[1] = update_qty
+                item[3] = item[1] * item[2]
+    
+    def update_item_price(self, name, update_price):
+        for item in self.transaction_list:
+            if item[0] == name:
+                item[2] = update_price
+                item[3] = item[1] * item[2]
+    
+    def delete_item(self, name):
+        for i in range(len(self.transaction_list)):
+            if self.transaction_list[i][0] == name:
+                del self.transaction_list[i]
+                break
+    
+    def reset_transaction(self):
+        self.transaction_list = []
+    
+    def check_order(self):
+        for item in self.transaction_list:
+            if item[0] == "" or item[1] <= 0 or item[2] <= 0:
+                print("There is an input data error")
+                return
+        print("The order is right")
+    
+    def display_transaction(self):
+        print("No\tName\t\tQuantity\tPrice\tTotal")
+        for i, item in enumerate(self.transaction_list, 1):
+            print("{}\t{}\t\t{}\t\t{}\t{}".format(i, item[0], item[1], item[2], item[3]))
+    
+    def total_price(self):
+        total_price = sum([item[3] for item in self.transaction_list])
+        print("Total price:", total_price)
+        if total_price >= 200000:
+            discount = 0.05
+        elif total_price >= 300000:
+            discount = 0.08
+        elif total_price >= 500000:
+            discount = 0.1
+        else:
+            discount = 0
+        print("Discount:", discount * total_price)
+        print("Final price:", total_price * (1 - discount))
+
+trnsct_123 = Transaction()
+trnsct_123.add_item(["Mobil", 2, 100000])
+trnsct_123.add_item(["Tempe", 3, 3000])
+trnsct_123.add_item(["Mie", 1, 5000])
+trnsct_123.check_order()
+trnsct_123.display_transaction()
+trnsct_123.total_price()
